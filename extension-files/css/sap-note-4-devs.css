@@ -1,0 +1,23 @@
+frameset {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.mybody {
+	height: 100%;
+	overflow: hidden;
+}
+.urBdyStd.mybody {
+    background: #000;
+}
+#Display_Container div div div div.urTxtStd{
+    display:flex;
+}
+.ciBlock { max-width: calc(33vw - 21px); height:calc(100vh - 300px); overflow:scroll; border: 1px solid darkgrey; margin: 0 -1 0 0; }
+.ciBlock h4 {margin:5px 0 5px 5px;}
+.ciBlock h4 a, .ciBlock h4 small{font-size: smaller; font-weight: normal; }
+.compare-status-not-comparable {color:grey;}
+.compare-status-equal {color:green;}
+.compare-status-different {color:orangered;}

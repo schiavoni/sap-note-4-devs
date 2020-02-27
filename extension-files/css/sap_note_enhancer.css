@@ -1,0 +1,58 @@
+/* CSS from sap_note_enhancer https://github.com/dellagustin/SAP_Note_Enhancer */
+
+.ci_insertion {
+	background-color: #CCEBD6;
+}
+
+.ci_deletion {
+	background-color: #FFCCCC;
+}
+
+.ciBlock {
+	background-color: rgb(230, 238, 240);
+}
+
+.token.keyword {
+	color: blue;
+}
+
+.token.comment {
+	color: grey;
+	font-style: italic;
+}
+
+.token.string {
+	/* The standard editor color (commented below) does not look good in
+	contrast to the background of the insertion and deletion blocks.
+	We are adopting the darkgreen as default. */
+	/* color: rgb(77,166,25); */
+	color: darkgreen;
+}
+
+.ci_insertion .token.string {
+	/* Strings in insertion blocks need a little more contrast */
+	color: darkgreen;
+}
+
+.token.number {
+	color: rgb(51,153,255);
+}
+
+.token.operator {
+	color: purple;
+}
+
+.token.punctuation {
+	color: purple;
+}
+
+.token.token_operator {
+	color: rgb(128,128,128);
+}
+
+pre {
+	display:inline;
+	font-size: 12px;
+	padding: 0px;
+	font-family: Consolas, "Liberation Mono", Courier, monospace;
+}

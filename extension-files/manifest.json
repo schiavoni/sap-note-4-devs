@@ -1,0 +1,89 @@
+{
+    "name": "SAP Note4Devs",
+    "version": "0.1.0",
+    "description": "Make some UI improvements for the estimated SAP developer.",
+    "manifest_version": 2,
+    "homepage_url": "https://github.com/schiavoni/sap-note-4-devs",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://launchpad.support.sap.com/*"
+            ],
+            "all_frames": true,
+            "css": [
+                "css/sap-note-4-devs.css"
+            ],
+            "js": [
+                "js/jquery.slim.min.js",
+                "js/prism.js",
+                "js/sap-note-4-devs.js",
+                "js/matches1.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.sap.corp/*/bc/bsp/spn/corr_instr/correction_detail.*",
+                "https://*.sap-ag.de/*/bc/bsp/spn/corr_instr/correction_detail.*"
+            ],
+            "all_frames": true,
+            "css": [
+                "css/sap-note-4-devs.css"
+            ],
+            "js": [
+                "js/jquery.slim.min.js",
+                "js/prism.js",
+                "js/sap-note-4-devs.js",
+                "js/matches2.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.sap.corp/*/bc/bsp/spn/corr_instr/correction_instructions.*",
+                "https://*.sap-ag.de/*/bc/bsp/spn/corr_instr/correction_instructions.*"
+            ],
+            "all_frames": true,
+            "css": [
+                "css/sap-note-4-devs.css"
+            ],
+            "js": [
+                "js/jquery.slim.min.js",
+                "js/prism.js",
+                "js/sap-note-4-devs.js",
+                "js/matches3.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.sap.corp/*/bc/bsp/sno/ui/main.do",
+                "https://*.sap-ag.de/*/bc/bsp/sno/ui/main.do"
+            ],
+            "all_frames": true,
+            "css": [
+                "css/sap_note_enhancer.css",
+                "css/sap-note-4-devs.css"
+            ],
+            "js": [
+                "js/jquery.slim.min.js",
+                "js/prism.js",
+                "js/ci.js",
+                "js/sap-note-4-devs.js",
+                "js/matches4.js"
+            ]
+        }
+    ],
+    "browser_action": {
+        "browser_style": true,
+        "default_title": "SAP Note4Devs",
+        "default_popup": "colorcode.html",
+        "default_icon": {
+            "32": "img/32.png",
+            "48": "img/48.png",
+            "128": "img/128.png"
+        }
+    },
+    "icons": {
+        "32": "img/32.png",
+        "48": "img/48.png",
+        "128": "img/128.png"
+    }
+}
