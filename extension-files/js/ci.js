@@ -30,14 +30,21 @@ class correctionInstruction {
         }
     }
     getRequirements(){
-        this.requirements = this.getFromHeader(/(Note )([0-9]{10})/gmi);
+        this.requirements = this.getFromHeader(/(Note|Hinweis){1}(?:\s){1}([0-9]{10})/gmi);
     }
     getReleases(){
         this.releases = this.getFromHeader(/(Release )(\S+)/gmi);
     }
     wrapCiBlock(){
         this.jqueryObj.wrap('<div class="ciBlock"><pre class="language-abap"><code></code></pre></div>');
+        
+        if(this.locked)
+            this.jqueryObj.html(this.jqueryObj.html().substr(0, 6000));
+        
         this.jqueryObj = this.jqueryObj.closest('.ciBlock');
+
+        if(this.locked)
+            this.jqueryObj.addClass('locked');
     }
     compareRequirements(arrCiWithoutMe){
         let html = '';
@@ -66,24 +73,34 @@ class correctionInstruction {
         }
         return html;
     }
+    copyCiTextToClipboard(){
+        copyToClipboard(this.jqueryObj.find('pre.language-abap>code'));
+    }
     buildCiInfo(arrCi){
+        let me = this;
         let arrCiWithoutMe = new Array();
+        let textComparison = '<h4>Code: <small class="compare-status-not-comparable">Too big to compare. Code truncated.</small></h4>';
+        let copyToClipboard = $('<a class="toClipboard" href="javascript:">Copy CI code to clipboard</a>');
+        copyToClipboard.on('click', function(){me.copyCiTextToClipboard()});
         for(let ci of arrCi)
             if(ci.number != this.number)
                 arrCiWithoutMe.push(ci);
+
+        if(!this.locked)
+            textComparison = '<h4>Code: '+this.compareText(arrCiWithoutMe)+'</h4>';
+            
         this.jqueryObj.prepend('<div class="ciInfo">'+
             '<h4>Releases: '+this.releases.join(', ')+'</h4>'+
             '<h4>Requirement notes: '+this.compareRequirements(arrCiWithoutMe)+'</h4>'+
-            '<h4>Code: '+this.compareText(arrCiWithoutMe)+'</h4>'+
+            textComparison+
         '</div>');
+        this.jqueryObj.find('.ciInfo').append(copyToClipboard);
     }
     init(){
-        if(!this.locked){
-            this.chopHeader();
-            this.getRequirements();
-            this.getReleases();
-            this.wrapCiBlock();
-        }
+        this.chopHeader();
+        this.getRequirements();
+        this.getReleases();
+        this.wrapCiBlock();
     }
 }
 
