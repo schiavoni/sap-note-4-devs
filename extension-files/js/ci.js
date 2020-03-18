@@ -7,7 +7,7 @@ class correctionInstruction {
         this.releases = undefined;
         this.prettyHtml = undefined;
         this.jqueryObj = $(domEl);
-        this.locked = (this.text.length > 50000);
+        this.locked = (this.text.length > 999999);
         this.divisor = '*$--------------------------------------------------------------------$*';
         this.headerDivisor = '*$*$----------------------------------------------------------------$*$*';
         this.init();
@@ -96,19 +96,50 @@ class correctionInstruction {
         '</div>');
         this.jqueryObj.find('.ciInfo').append(copyToClipboard);
     }
+    normalizeSyntax(){
+        let code = this.jqueryObj.find('code');
+        let htmlCode = code.html();
+        htmlCode = replaceAll(htmlCode, '<br>', '\n');
+        htmlCode = replaceAll(htmlCode,	'*\n&gt;&gt;&gt;', '*\n</code><code class="language-none">&gt;&gt;&gt;');
+        htmlCode = replaceAll(htmlCode,	'&lt;&lt;&lt;\n\n*&amp;', '&lt;&lt;&lt;</code><code class="language-abap">\n\n*&amp;');
+        code.html(htmlCode);
+    }
+    syntaxHighlighter(){
+        let htmlCode = this.jqueryObj.html();
+
+        htmlCode = replaceAll(htmlCode,	
+            '<span class="token comment">*&gt;&gt;&gt;&gt; START OF DELETION &lt;&lt;&lt;&lt;', 
+            '<div class="deletionBlock"><span class="token comment"><b>*&gt;&gt;&gt;&gt; START OF DELETION &lt;&lt;&lt;&lt;&lt;</b>');
+        htmlCode = replaceAll(htmlCode,	
+            '*&gt;&gt;&gt;&gt; END OF DELETION &lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>', 
+            '<b>*&gt;&gt;&gt;&gt; END OF DELETION &lt;&lt;&lt;&lt;&lt;&lt;&lt;</b></span></div>');
+
+        htmlCode = replaceAll(htmlCode,	
+            '<span class="token comment">*&gt;&gt;&gt;&gt; START OF INSERTION &lt;&lt;&lt;&lt;', 
+            '<div class="insertionBlock"><span class="token comment"><b>*&gt;&gt;&gt;&gt; START OF INSERTION &lt;&lt;&lt;&lt;&lt;</b>');
+        htmlCode = replaceAll(htmlCode,	
+            '*&gt;&gt;&gt;&gt; END OF INSERTION &lt;&lt;&lt;&lt;&lt;&lt;</span>', 
+            '<b>*&gt;&gt;&gt;&gt; END OF INSERTION &lt;&lt;&lt;&lt;&lt;&lt;</b></span></div>');
+
+        this.jqueryObj.html(htmlCode);
+    }
     init(){
         this.chopHeader();
         this.getRequirements();
         this.getReleases();
         this.wrapCiBlock();
+        this.normalizeSyntax();
     }
 }
 
 class ciCollection {
     constructor() {
         this.arrCi = new Array();
+        this.jqueryObj = undefined;
         this.discoverCis();
         this.buildCisInfo();
+        this.findCollection();
+        this.setCollectionStyle();
     }
     discoverCis() {
         let me = this;
@@ -122,6 +153,30 @@ class ciCollection {
     buildCisInfo(){
         for(let ci of this.arrCi){
             ci.buildCiInfo(this.arrCi);
+        }
+    }
+    findCollection(){
+        if(this.arrCi.length > 0){
+            this.jqueryObj = this.arrCi[0].jqueryObj.parent();
+        }
+    }
+    setCollectionStyle(){
+        if(this.jqueryObj != undefined){
+            switch(this.arrCi.length){
+                case 1:
+                case 2:
+                case 3:
+                        this.jqueryObj.addClass('ciCollection ciCollection-'+this.arrCi.length);
+                    break;
+                default:
+                        this.jqueryObj.addClass('ciCollection ciCollection-tops');
+                    break;
+            }
+        }
+    }
+    highlight(){
+        for(let ci of this.arrCi){
+            ci.syntaxHighlighter();
         }
     }
 }
