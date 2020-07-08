@@ -36,7 +36,7 @@ class correctionInstruction {
         this.releases = this.getFromHeader(/(Release )(\S+)/gmi);
     }
     wrapCiBlock(){
-        this.jqueryObj.wrap('<div class="ciBlock"><pre class="language-abap"><code></code></pre></div>');
+        this.jqueryObj.wrap('<div class="ciBlock"><div class="ciCode"><pre class="language-abap"><code></code></pre></div></div>');
         
         if(this.locked)
             this.jqueryObj.html(this.jqueryObj.html().substr(0, 6000));
@@ -74,14 +74,15 @@ class correctionInstruction {
         return html;
     }
     copyCiTextToClipboard(){
-        copyToClipboard(this.jqueryObj.find('pre.language-abap>code'));
+        copyToClipboard(this.jqueryObj.find('.ciCode:first').html());
     }
     buildCiInfo(arrCi){
         let me = this;
         let arrCiWithoutMe = new Array();
         let textComparison = '<h4>Code: <small class="compare-status-not-comparable">Too big to compare. Code truncated.</small></h4>';
-        let copyToClipboard = $('<a class="toClipboard" href="javascript:">Copy CI code to clipboard</a>');
-        copyToClipboard.on('click', function(){me.copyCiTextToClipboard()});
+        let copyToClipboard = $('<a class="cibtn toClipboard" href="javascript:">Copy CI code to clipboard</a>');
+        copyToClipboard.on('click', function(){ me.copyCiTextToClipboard() });
+
         for(let ci of arrCi)
             if(ci.number != this.number)
                 arrCiWithoutMe.push(ci);
@@ -105,7 +106,8 @@ class correctionInstruction {
         code.html(htmlCode);
     }
     syntaxHighlighter(){
-        let htmlCode = this.jqueryObj.html();
+        let codeObj = this.jqueryObj.find('.ciCode:first');
+        let htmlCode = codeObj.html();
 
         htmlCode = replaceAll(htmlCode,	
             '<span class="token comment">*&gt;&gt;&gt;&gt; START OF DELETION &lt;&lt;&lt;&lt;', 
@@ -121,7 +123,7 @@ class correctionInstruction {
             '*&gt;&gt;&gt;&gt; END OF INSERTION &lt;&lt;&lt;&lt;&lt;&lt;</span>', 
             '<b>*&gt;&gt;&gt;&gt; END OF INSERTION &lt;&lt;&lt;&lt;&lt;&lt;</b></span></div>');
 
-        this.jqueryObj.html(htmlCode);
+        codeObj.html(htmlCode);
     }
     init(){
         this.chopHeader();
@@ -136,10 +138,12 @@ class ciCollection {
     constructor() {
         this.arrCi = new Array();
         this.jqueryObj = undefined;
+        this.lockScrollOption = undefined;
         this.discoverCis();
         this.buildCisInfo();
         this.findCollection();
-        this.setCollectionStyle();
+        this.setCollectionHeader();
+        this.lockScrollToggle();
     }
     discoverCis() {
         let me = this;
@@ -160,18 +164,68 @@ class ciCollection {
             this.jqueryObj = this.arrCi[0].jqueryObj.parent();
         }
     }
-    setCollectionStyle(){
+    lockScrollToggle(){
+        let me = this;
+
+        if(me.lockScrollOption === true){
+
+            for(let ci of this.arrCi)
+                ci.jqueryObj.find('.ciCode').off( ".lockscroll" );
+            
+            me.lockScrollOption = false;
+            me.jqueryObj.find('a.lockscroll input').prop('checked', false);
+        } else {
+        
+            for(let ciIndex = 0; ciIndex < me.arrCi.length; ciIndex++){
+                let currentCiBlock = me.arrCi[ciIndex].jqueryObj.find('.ciCode');
+
+                $(currentCiBlock).on('mouseenter.lockscroll', function(){
+                    $(currentCiBlock).on('scroll.lockscroll', function () {
+                        for(let otherCiIndex = 0; otherCiIndex < me.arrCi.length; otherCiIndex++){
+                            if(otherCiIndex != ciIndex){
+                                let otherCiBlock = me.arrCi[otherCiIndex].jqueryObj.find('.ciCode');
+                                $(otherCiBlock).scrollTop($(this).scrollTop());
+                            }
+                        }
+                    });
+                });
+
+                $(currentCiBlock).on('mouseleave.lockscroll', function(){
+                    $(currentCiBlock).off('scroll.lockscroll');
+                    for(let otherCiIndex = 0; otherCiIndex < me.arrCi.length; otherCiIndex++){
+                        if(otherCiIndex != ciIndex){
+                            let otherCiBlock = me.arrCi[otherCiIndex].jqueryObj.find('.ciCode');
+                            $(otherCiBlock).off('scrollTop.lockscroll');
+                        }
+                    }
+                });
+                
+            }
+            me.lockScrollOption = true;
+            me.jqueryObj.find('a.lockscroll input').prop('checked', true);
+        }
+    }
+    setCollectionHeader(){
         if(this.jqueryObj != undefined){
+            let me = this;
             switch(this.arrCi.length){
                 case 1:
                 case 2:
                 case 3:
-                        this.jqueryObj.addClass('ciCollection ciCollection-'+this.arrCi.length);
+                        this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-'+this.arrCi.length+'"></div>');
                     break;
                 default:
-                        this.jqueryObj.addClass('ciCollection ciCollection-tops');
+                        this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-tops"></div>');
                     break;
             }
+
+            let lockScrollButton = $('<a class="cibtn lockscroll" href="javascript:"><input type="checkbox" /> Lock CI scroll</a>');
+            lockScrollButton.on('click', function(){ me.lockScrollToggle() });
+
+            let ciCollectionHeader = $('<div class="ciCollection-header"></div>');
+            ciCollectionHeader.append(lockScrollButton);
+
+            this.jqueryObj.prepend(ciCollectionHeader);
         }
     }
     highlight(){

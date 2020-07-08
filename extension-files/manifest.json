@@ -1,6 +1,6 @@
 {
     "name": "SAP Note4Devs",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Make some UI improvements for the estimated SAP developer.",
     "manifest_version": 2,
     "homepage_url": "https://github.com/schiavoni/sap-note-4-devs",
@@ -11,12 +11,8 @@
             ],
             "all_frames": true,
             "css": [
-                "css/sap-note-4-devs.css"
             ],
             "js": [
-                "js/jquery.slim.min.js",
-                "js/prism.js",
-                "js/sap-note-4-devs.js",
                 "js/matches1.js"
             ]
         },
@@ -27,12 +23,8 @@
             ],
             "all_frames": true,
             "css": [
-                "css/sap-note-4-devs.css"
             ],
             "js": [
-                "js/jquery.slim.min.js",
-                "js/prism.js",
-                "js/sap-note-4-devs.js",
                 "js/matches2.js"
             ]
         },
@@ -43,12 +35,8 @@
             ],
             "all_frames": true,
             "css": [
-                "css/sap-note-4-devs.css"
             ],
             "js": [
-                "js/jquery.slim.min.js",
-                "js/prism.js",
-                "js/sap-note-4-devs.js",
                 "js/matches3.js"
             ]
         },
@@ -74,7 +62,7 @@
     "browser_action": {
         "browser_style": true,
         "default_title": "SAP Note4Devs",
-        "default_popup": "colorcode.html",
+        "default_popup": "toolbar-home.html",
         "default_icon": {
             "32": "img/32.png",
             "48": "img/48.png",

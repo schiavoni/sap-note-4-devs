@@ -3,7 +3,7 @@ const replaceAll = (string, needle, replace) => {
 	return string.replace(new RegExp(escapeRegExp(needle), 'gi'), replace);
 }
 const escapeRegExp = (string) => {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 const copyToClipboard = (element) => {
@@ -12,6 +12,7 @@ const copyToClipboard = (element) => {
   document.execCommand('copy');
   element.remove();
 }
+
 const adjustGeneralHtml = () => {
   $('body').addClass('mybody');
   $('#Display_Container').removeAttr("style");

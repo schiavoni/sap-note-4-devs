@@ -1,0 +1,4 @@
+small {white-space: nowrap;}
+.compare-status-not-comparable {color:grey;}
+.compare-status-equal {color:green;}
+.compare-status-different {color:orangered;}
