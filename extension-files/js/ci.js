@@ -7,7 +7,7 @@ class correctionInstruction {
         this.releases = undefined;
         this.prettyHtml = undefined;
         this.jqueryObj = $(domEl);
-        this.locked = (this.text.length > 999999);
+        this.locked = (this.text.length > 15000);
         this.divisor = '*$--------------------------------------------------------------------$*';
         this.headerDivisor = '*$*$----------------------------------------------------------------$*$*';
         this.init();

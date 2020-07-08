@@ -10,15 +10,15 @@ input.toClipboard {position: absolute; top:-100vh; left:-100vw; display: hidden;
 .ciCollection a.cibtn, .ciCollection-header a.cibtn {text-decoration: none; padding: 3px 10px; font-size: 12px; line-height: 20px; color: #24292e; background-color: #eff3f6; background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%); white-space: nowrap; vertical-align: middle; cursor: pointer; background-repeat: repeat-x; background-position: -1px -1px; background-size: 110% 110%; border: 1px solid rgba(27,31,35,.2); border-radius: .25em;}
 .ciCollection a.cibtn input, .ciCollection-header a.cibtn input { margin: 0; padding: 0; vertical-align: middle; cursor:pointer; }
 .ciCollection-1 .ciBlock {max-width: 100%;}
-.ciCollection-2 .ciBlock {max-width: 50%;}
-.ciCollection-3 .ciBlock {max-width: 33.33%;}/*calc(33vw - 21px)*/
-.ciCollection-tops {min-width:33.33%;}
+.ciCollection-2 .ciBlock, .ciCollection-2 .ciBlock.locked::after {max-width: 50%;}
+.ciCollection-3 .ciBlock, .ciCollection-3 .ciBlock.locked::after {max-width: 33.33%;}/*calc(33vw - 21px)*/
+.ciCollection-tops, .ciCollection-tops .ciBlock.locked::after {min-width:33.33%;}
 .ciCollection-header { box-sizing: border-box; padding: 5px; background: rgba(214, 221, 226, 1); border: 1px solid darkgrey; border-width: 1px 1px 0px 1px; }
 .ciBlock { box-sizing: border-box; width:100%; border: 1px solid darkgrey; margin: 0 -1 0 0; }
 .ciBlock .ciCode {position:relative; height:calc(100vh - 350px); overflow:scroll;}
 .ciBlock code[class*="language-"],.ciBlock pre[class*="language-"] {text-shadow:none;}
 .ciBlock.locked {overflow: hidden;}
-.ciBlock.locked::after {content:' '; display:block; position: absolute; width:100%; height:300px; bottom:0; background: rgb(230,238,240); background: linear-gradient(0deg, rgba(230,238,240,1) 10%, rgba(255,255,255,0) 100%);}
+.ciBlock.locked::after {width:100%; content:' '; display:block; position: absolute; height:300px; bottom:0; background: rgb(230,238,240); background: linear-gradient(0deg, rgba(230,238,240,1) 10%, rgba(255,255,255,0) 100%);}
 .ciBlock .ciInfo  {padding: 5px; background: rgba(214, 221, 226, 1); border-bottom: 1px solid darkgrey;}
 .ciBlock h4 {margin:0px 0 5px 0px;}
 .ciBlock h4 a, .ciBlock h4 small{font-size: smaller; font-weight: normal; }
