@@ -1,6 +1,4 @@
 'use strict'
-var console = chrome.extension.getBackgroundPage().console;
-
 class settingsSync {
     constructor(){
 		this.settings = {
@@ -14,15 +12,15 @@ class settingsSync {
 		chrome.storage.sync.get(Object.keys(me.settings), function(items) {
 			if(chrome.runtime.lastError){
 				console.log(chrome.runtime.lastError.message);
-				return;
 			}
 
 			if(items != undefined){
 				for (let [key, item] of Object.entries(items)) {
 					me.settings[key] = item;
 				}
-				callback(me.settings);
 			}
+			
+			callback(me.settings);
 		});
 	}
 	saveSettings(newSettings, callback){

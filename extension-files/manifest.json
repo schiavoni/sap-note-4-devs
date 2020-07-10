@@ -58,6 +58,7 @@
                 "css/sap-note-4-devs.css"
             ],
             "js": [
+                "js/settings-sync.js",
                 "js/jquery.slim.min.js",
                 "js/prism.js",
                 "js/ci.js",

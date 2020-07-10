@@ -1,5 +1,6 @@
 class correctionInstruction {
-    constructor(domEl, ciNumber){
+    constructor(domEl, ciNumber, settings){
+        this.settings = settings;
         this.number = ciNumber;
         this.text = domEl.innerHTML;
         this.header = undefined;
@@ -7,7 +8,7 @@ class correctionInstruction {
         this.releases = undefined;
         this.prettyHtml = undefined;
         this.jqueryObj = $(domEl);
-        this.locked = (this.text.length > 15000);
+        this.locked = (this.text.length > this.settings.codeTrunctionThreshold);
         this.divisor = '*$--------------------------------------------------------------------$*';
         this.headerDivisor = '*$*$----------------------------------------------------------------$*$*';
         this.init();
@@ -135,7 +136,8 @@ class correctionInstruction {
 }
 
 class ciCollection {
-    constructor() {
+    constructor(settings) {
+        this.settings = settings;
         this.arrCi = new Array();
         this.jqueryObj = undefined;
         this.lockScrollOption = undefined;
@@ -150,7 +152,7 @@ class ciCollection {
         $('div.urTxtStd > p').each(function(index, domEl) {
             let t = domEl.innerHTML;
             if(t.indexOf('Correction Inst.') >= 0 || t.indexOf('KORREKTURANLEITUNG') >= 0) {
-                me.arrCi.push(new correctionInstruction(domEl, me.arrCi.length));
+                me.arrCi.push(new correctionInstruction(domEl, me.arrCi.length, me.settings));
             }
         });
     }

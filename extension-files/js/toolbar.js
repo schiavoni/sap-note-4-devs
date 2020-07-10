@@ -16,23 +16,6 @@ class mySettings {
 			element.addEventListener('change', function(){ me.saveSettings(); });
 		}
 	}
-    // loadSettings(){
-	// 	let me = this;
-
-	// 	chrome.storage.sync.get(Object.keys(me.settings), function(items) {
-	// 		if(chrome.runtime.lastError){
-	// 			console.log(chrome.runtime.lastError.message);
-	// 			return;
-	// 		}
-
-	// 		if(items != undefined){
-	// 			for (let [key, item] of Object.entries(items)) {
-	// 				me.settings[key] = item;
-	// 			}
-	// 			me.fillFields();
-	// 		}
-	// 	});
-	// }
 	saveSettings(){
 		let me = this;
 		this.fillSettings();
@@ -40,7 +23,6 @@ class mySettings {
 			let message = "";
 
 			for (let [key, lastError] of Object.entries(settingsSetStatus)) {
-				console.log('['+key+', '+lastError+']:');
 				if (lastError != undefined){
 					message = lastError.message;
 					break;
@@ -53,22 +35,8 @@ class mySettings {
 				me.error(message);
 			}
 		});
-
-		// for (let [key, setting] of Object.entries(this.settings)) {
-		// 	let setObj = {};
-		// 	setObj[key] = setting;
-
-		// 	chrome.storage.sync.set(setObj, function() {
-		// 		if(chrome.runtime.lastError){
-		// 			error(chrome.runtime.lastError.message);
-		// 			return;
-		// 		}
-		// 		success("Settings saved");
-		// 	});
-		// }
 	}
 	fillFields(){
-		console.log("fillFields");
 		for (let [key, setting] of Object.entries(this.settings)) {
 			document.querySelector("#"+key).value = setting;
 		}
@@ -88,7 +56,6 @@ class mySettings {
 		this.message(text,"error");
 	}
 	message(text,type){
-		console.log('( text: '+text+', type: '+type+')');
 		let messageDiv = document.querySelector(".messages");
 		let newMessage = document.createElement("span");
 		newMessage.innerHTML = text;
@@ -102,8 +69,6 @@ class mySettings {
 	init(){
 		let me = this;
 		this.settingsSync.loadSettings(function(items){
-			console.log('callback returned:');
-			console.log(items);
 			if(items != undefined)
 				me.settings = items;
 				me.setEvents();
