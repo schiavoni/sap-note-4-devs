@@ -2,3 +2,32 @@ small {white-space: nowrap;}
 .compare-status-not-comparable {color:grey;}
 .compare-status-equal {color:green;}
 .compare-status-different {color:orangered;}
+.toobal-nav {display:flex; width: 100%; border-top: 1px solid darkgray; margin: 10px 0 0; padding: 5px 0 0;}
+.toobal-nav label {font-weight: bold;}
+.toobal-nav svg {display: inline; width: 15px; vertical-align: middle;}
+.settings-form {width:100%;}
+.settings-form div {display:flex; flex-wrap: wrap; min-width: 250px;}
+.settings-form label {flex: 1 0 100%; margin:0 0 5px 0;}
+.settings-form input {flex:1;}
+.settings-form small {flex:1;}
+
+@keyframes messageblink {
+    0% {
+        opacity: 1;
+    }
+    1% {
+        opacity: 0;
+    }
+    2% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.messages {display:flex; flex-wrap: wrap; align-content: flex-end; height: 16px; overflow: hidden;}
+.messages .warning {color:darkgoldenrod;}
+.messages .error {color: darkred;}
+.messages .success {color: green;}
+.messages span { width: 100%; font-size:12px; font-style:italic; animation:messageblink normal 2s ease-in-out; opacity: 0; }

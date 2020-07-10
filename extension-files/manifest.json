@@ -1,9 +1,16 @@
 {
     "name": "SAP Note4Devs",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Make some UI improvements for the estimated SAP developer.",
     "manifest_version": 2,
     "homepage_url": "https://github.com/schiavoni/sap-note-4-devs",
+    "permissions": [
+        "storage",
+        "activeTab"
+    ],
+    "background": {
+        "scripts": ["js/bg.js"]
+    },
     "content_scripts": [
         {
             "matches": [
