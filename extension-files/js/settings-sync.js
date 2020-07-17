@@ -19,6 +19,9 @@ class settingsSync {
 					me.settings[key] = item;
 				}
 			}
+
+			me.settings.codeTrunctionThreshold++;me.settings.codeTrunctionThreshold--;
+			me.settings.maxCIColumns++;me.settings.maxCIColumns--;
 			
 			callback(me.settings);
 		});

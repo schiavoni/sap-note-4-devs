@@ -30,7 +30,7 @@ class mySettings {
 			}
 			
 			if(message === ""){
-				me.success("Sucessfuly updated!");
+				me.success("Sucessfuly updated! Refresh to take effect");
 			} else {
 				me.error(message);
 			}

@@ -210,22 +210,22 @@ class ciCollection {
     setCollectionHeader(){
         if(this.jqueryObj != undefined){
             let me = this;
-            switch(this.arrCi.length){
-                case 1:
-                case 2:
-                case 3:
-                        this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-'+this.arrCi.length+'"></div>');
-                    break;
-                default:
-                        this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-tops"></div>');
-                    break;
+            if (this.arrCi.length <= this.settings.maxCIColumns) {
+                this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-'+this.arrCi.length+'"></div>');
+            } else if (this.settings.maxCIColumns < 10) {
+                this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-'+this.settings.maxCIColumns+'"></div>');
+            } else {
+                this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-tops"></div>');
             }
 
             let lockScrollButton = $('<a class="cibtn lockscroll" href="javascript:"><input type="checkbox" /> Lock CI scroll</a>');
             lockScrollButton.on('click', function(){ me.lockScrollToggle() });
 
             let ciCollectionHeader = $('<div class="ciCollection-header"></div>');
-            ciCollectionHeader.append(lockScrollButton);
+            
+            if (this.arrCi.length > 1) {
+                ciCollectionHeader.append(lockScrollButton);
+            }
 
             this.jqueryObj.prepend(ciCollectionHeader);
         }
