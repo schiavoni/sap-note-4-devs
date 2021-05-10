@@ -7,6 +7,7 @@ class mySettings {
 
 		this.settings = {};
 		this.settingsSync = new settingsSync();
+		this.message = new myMessage( 3000 );
 	}
 	setEvents(){
 		let me = this;
@@ -47,24 +48,13 @@ class mySettings {
 		}
 	}
 	warning(text){
-		this.message(text,"warning");
+		this.message.warning(text);
 	}
 	success(text){
-		this.message(text,"success");
+		this.message.success(text);
 	}
 	error(text){
-		this.message(text,"error");
-	}
-	message(text,type){
-		let messageDiv = document.querySelector(".messages");
-		let newMessage = document.createElement("span");
-		newMessage.innerHTML = text;
-		newMessage.className = type;
-		messageDiv.appendChild(newMessage);
-
-		setTimeout(function(){
-			newMessage.remove();
-		},3000);
+		this.message.error(text);
 	}
 	init(){
 		let me = this;

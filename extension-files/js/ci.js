@@ -1,5 +1,6 @@
 class correctionInstruction {
-    constructor(domEl, ciNumber, settings){
+    constructor(domEl, ciNumber, settings, message){
+        this.message = message;
         this.settings = settings;
         this.number = ciNumber;
         this.text = domEl.innerHTML;
@@ -126,6 +127,28 @@ class correctionInstruction {
 
         codeObj.html(htmlCode);
     }
+    regexSearches(){
+        let arrTest = [ { type:'code', regex:'ated by SAP_LOCAL_DO', message:'This should not be here' },
+                        { type:'code', regex:'TYPE ddtext', message:'This should not be here 2' } ];
+        let m;
+        for (let search of arrTest){
+            console.log(search.regex);
+
+            let reg = new RegExp(search.regex, 'gm');
+            
+            while ((m = reg.exec(this.text)) !== null) {
+                // This is necessary to avoid infinite loops with zero-width matches
+                if (m.index === reg.lastIndex) {
+                    reg.lastIndex++;
+                }
+                
+                // The result can be accessed through the `m`-variable.
+                m.forEach((match, groupIndex) => {
+                    this.message.warning(`Found match, group ${groupIndex}: ${match}`);
+                });
+            }
+        }
+    }
     init(){
         this.chopHeader();
         this.getRequirements();
@@ -136,8 +159,9 @@ class correctionInstruction {
 }
 
 class ciCollection {
-    constructor(settings) {
+    constructor(settings, message) {
         this.settings = settings;
+        this.message = message;
         this.arrCi = new Array();
         this.jqueryObj = undefined;
         this.lockScrollOption = undefined;
@@ -152,7 +176,7 @@ class ciCollection {
         $('div.urTxtStd > p').each(function(index, domEl) {
             let t = domEl.innerHTML;
             if(t.indexOf('Correction Inst.') >= 0 || t.indexOf('KORREKTURANLEITUNG') >= 0) {
-                me.arrCi.push(new correctionInstruction(domEl, me.arrCi.length, me.settings));
+                me.arrCi.push(new correctionInstruction(domEl, me.arrCi.length, me.settings, me.message));
             }
         });
     }
@@ -222,7 +246,8 @@ class ciCollection {
             lockScrollButton.on('click', function(){ me.lockScrollToggle() });
 
             let ciCollectionHeader = $('<div class="ciCollection-header"></div>');
-            
+            ciCollectionHeader.append('<div class="messages"></div>');
+
             if (this.arrCi.length > 1) {
                 ciCollectionHeader.append(lockScrollButton);
             }
@@ -233,6 +258,7 @@ class ciCollection {
     highlight(){
         for(let ci of this.arrCi){
             ci.syntaxHighlighter();
+            ci.regexSearches();
         }
     }
 }

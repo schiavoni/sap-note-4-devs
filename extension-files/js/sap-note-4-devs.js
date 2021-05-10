@@ -20,10 +20,11 @@ const adjustGeneralHtml = () => {
 
 $( document ).ready(function() {
     adjustGeneralHtml();
+    let oMessages = new myMessage();
     let osettingsSync = new settingsSync();
     let oCiCollection = undefined;
     osettingsSync.loadSettings(function(settings){
-      oCiCollection = new ciCollection(settings);
+      oCiCollection = new ciCollection(settings, oMessages);
       Prism.highlightAll();
       oCiCollection.highlight();
     });
