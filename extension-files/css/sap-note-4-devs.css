@@ -1,6 +1,13 @@
 
+frameset { display: flex; width: 100vw; height: 100vh; position: relative; border:0; margin:0; padding: 0; }
+.mybody { height: 100%; }
+p {line-height: 1em;}
+
+/*
 frameset { display: flex; width: 100vw; height: 100vh; overflow: hidden; position: relative; border:0; margin:0; padding: 0; }
 .mybody { height: 100%; overflow: hidden; }
+*/
+
 .urBdyStd.mybody { background: #000; }
 #Display_Container {overflow:auto; width:100%; height:calc(100vh - 174px); }
 /* #Display_Container div div div div.urTxtStd { display:flex; } */
