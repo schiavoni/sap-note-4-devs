@@ -2,7 +2,7 @@
 class settingsSync {
     constructor(){
 		this.settings = {
-							'codeTrunctionThreshold': 15000,
+							'codeTrunctionThreshold': 999999,
 							'maxCIColumns': 3
 						};
 	}
