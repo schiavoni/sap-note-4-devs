@@ -132,8 +132,6 @@ class correctionInstruction {
                         { type:'code', regex:'TYPE ddtext', message:'This should not be here 2' } ];
         let m;
         for (let search of arrTest){
-            console.log(search.regex);
-
             let reg = new RegExp(search.regex, 'gm');
             
             while ((m = reg.exec(this.text)) !== null) {

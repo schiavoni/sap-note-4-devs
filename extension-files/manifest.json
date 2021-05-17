@@ -1,6 +1,6 @@
 {
-    "name": "SAP Note4Devs",
-    "version": "0.1.2",
+    "name": "Better SAP Note - code buddy?",
+    "version": "0.1.3",
     "description": "Make some UI improvements for the estimated SAP developer.",
     "manifest_version": 2,
     "homepage_url": "https://github.com/schiavoni/sap-note-4-devs",
@@ -54,7 +54,6 @@
             ],
             "all_frames": true,
             "css": [
-                "css/sap_note_enhancer.css",
                 "css/sap-note-4-devs.css"
             ],
             "js": [
@@ -70,7 +69,7 @@
     ],
     "browser_action": {
         "browser_style": true,
-        "default_title": "SAP Note4Devs",
+        "default_title": "Better SAP Note",
         "default_popup": "toolbar-home.html",
         "default_icon": {
             "32": "img/32.png",
