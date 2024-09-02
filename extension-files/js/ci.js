@@ -112,11 +112,11 @@ class correctionInstruction {
         let htmlCode = codeObj.html();
 
         htmlCode = replaceAll(htmlCode,	
-            '<span class="token comment">*&gt;&gt;&gt;&gt; START OF DELETION &lt;&lt;&lt;&lt;', 
+            '<span class="token comment">*&gt;&gt;&gt;&gt; START OF DELETION &lt;&lt;&lt;&lt;&lt;', 
             '<div class="deletionBlock"><span class="token comment"><b>*&gt;&gt;&gt;&gt; START OF DELETION &lt;&lt;&lt;&lt;&lt;</b>');
         htmlCode = replaceAll(htmlCode,	
             '*&gt;&gt;&gt;&gt; END OF DELETION &lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>', 
-            '<b>*&gt;&gt;&gt;&gt; END OF DELETION &lt;&lt;&lt;&lt;&lt;&lt;&lt;</b></span></div>');
+            '<b>*&gt;&gt;&gt;&gt; END OF DELETION &lt;&lt;&lt;&lt;&lt;&lt;</b></span></div>');
 
         htmlCode = replaceAll(htmlCode,	
             '<span class="token comment">*&gt;&gt;&gt;&gt; START OF INSERTION &lt;&lt;&lt;&lt;', 
@@ -128,24 +128,26 @@ class correctionInstruction {
         codeObj.html(htmlCode);
     }
     regexSearches(){
-        let arrTest = [ { type:'code', regex:'ated by SAP_LOCAL_DO', message:'This should not be here' },
-                        { type:'code', regex:'TYPE ddtext', message:'This should not be here 2' } ];
-        let m;
-        for (let search of arrTest){
-            let reg = new RegExp(search.regex, 'gm');
+        // let arrTest = [ { type:'code', regex:'ated by SAP_LOCAL_DO', message:'This should not be here' },
+        //                 { type:'code', regex:'TYPE ddtext', message:'This should not be here 2' } ];
+        // let m;
+        // for (let search of arrTest){
+        //     console.log(search.regex);
+
+        //     let reg = new RegExp(search.regex, 'gm');
             
-            while ((m = reg.exec(this.text)) !== null) {
-                // This is necessary to avoid infinite loops with zero-width matches
-                if (m.index === reg.lastIndex) {
-                    reg.lastIndex++;
-                }
+        //     while ((m = reg.exec(this.text)) !== null) {
+        //         // This is necessary to avoid infinite loops with zero-width matches
+        //         if (m.index === reg.lastIndex) {
+        //             reg.lastIndex++;
+        //         }
                 
-                // The result can be accessed through the `m`-variable.
-                m.forEach((match, groupIndex) => {
-                    this.message.warning(`Found match, group ${groupIndex}: ${match}`);
-                });
-            }
-        }
+        //         // The result can be accessed through the `m`-variable.
+        //         m.forEach((match, groupIndex) => {
+        //             this.message.warning(`Found match, group ${groupIndex}: ${match}`);
+        //         });
+        //     }
+        // }
     }
     init(){
         this.chopHeader();
@@ -232,6 +234,7 @@ class ciCollection {
     setCollectionHeader(){
         if(this.jqueryObj != undefined){
             let me = this;
+
             if (this.arrCi.length <= this.settings.maxCIColumns) {
                 this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-'+this.arrCi.length+'"></div>');
             } else if (this.settings.maxCIColumns < 10) {
@@ -239,6 +242,7 @@ class ciCollection {
             } else {
                 this.jqueryObj.wrapInner('<div class="ciCollection ciCollection-tops"></div>');
             }
+            this.jqueryObj.wrapInner('<div class="ciCollection-group"></div>');
 
             let lockScrollButton = $('<a class="cibtn lockscroll" href="javascript:"><input type="checkbox" /> Lock CI scroll</a>');
             lockScrollButton.on('click', function(){ me.lockScrollToggle() });
